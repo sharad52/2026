@@ -1,12 +1,13 @@
-# 2026 Engineering Playbook
+FastAPI Clean Architecture + Async Unit of Work + Repository Pattern
 
-A curated, hands-on repository documenting advanced Python engineering skills, modern backend architectures, cloud-native systems, and production-grade best practices learned throughout 2026.
+A production-ready backend template built with FastAPI, Clean Architecture, Domain-Driven Design (DDD), Repository Pattern, and a Generic Async Unit of Work (UoW) design.
 
-Focused on scalability, reliability, performance, AI-enabled systems, and senior-level decision making.
+Overview
 
-Purpose: Modern backend patterns
-Include:
-    Monolith vs modular monolith vs microservices
-    Hexagonal / Clean Architecture
-    Event-driven systems
-Service boundaries & contracts
+This project demonstrates a scalable backend architecture where:
+
+Business logic is isolated in the Domain layer
+Application logic is handled in Use Cases
+Database operations are abstracted via Repositories
+Transactions are managed using a Generic Async Unit of Work
+FastAPI is used only as a delivery layer (HTTP layer)
