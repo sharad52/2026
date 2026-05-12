@@ -1,0 +1,44 @@
+{
+  "coord": {
+    "lon": 83.9833,
+    "lat": 28.2333
+  },
+  "weather": [
+    {
+      "id": 803,
+      "main": "Clouds",
+      "description": "broken clouds",
+      "icon": "04d"
+    }
+  ],
+  "base": "stations",
+  "main": {
+    "temp": 25.75,
+    "feels_like": 25.82,
+    "temp_min": 25.75,
+    "temp_max": 25.75,
+    "pressure": 1008,
+    "humidity": 55,
+    "sea_level": 1008,
+    "grnd_level": 868
+  },
+  "visibility": 10000,
+  "wind": {
+    "speed": 1.44,
+    "deg": 170,
+    "gust": 1.62
+  },
+  "clouds": {
+    "all": 62
+  },
+  "dt": 1778572260,
+  "sys": {
+    "country": "NP",
+    "sunrise": 1778542567,
+    "sunset": 1778591090
+  },
+  "timezone": 20700,
+  "id": 1282898,
+  "name": "Pokhara",
+  "cod": 200
+}

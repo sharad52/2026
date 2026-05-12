@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="60">
+    <title>Weather Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --bg-1: #0b1220;
+            --bg-2: #1e1b4b;
+            --card-bg: rgba(255, 255, 255, 0.07);
+            --card-border: rgba(255, 255, 255, 0.12);
+            --text: #f1f5f9;
+            --muted: #94a3b8;
+            --accent: #38bdf8;
+            --accent-soft: rgba(56, 189, 248, 0.18);
+        }
+        * { box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(1200px 600px at 10% -10%, #1e3a8a55, transparent),
+                radial-gradient(900px 500px at 90% 110%, #7c3aed40, transparent),
+                linear-gradient(180deg, var(--bg-1), var(--bg-2));
+            min-height: 100vh;
+            padding: 40px 24px 60px 24px;
+        }
+        .page-header {
+            max-width: 1200px;
+            margin: 0 auto 28px auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .page-header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .page-header .updated { color: var(--muted); font-size: 13px; }
+        .grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 22px;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 36px 70px rgba(0, 0, 0, 0.45);
+        }
+        .card-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+        .city { font-size: 20px; font-weight: 600; letter-spacing: -0.3px; }
+        .emoji { font-size: 40px; line-height: 1; }
+        .temp { font-size: 52px; font-weight: 700; letter-spacing: -1.8px; margin: 6px 0 0 0; }
+        .desc {
+            color: var(--muted);
+            margin: 2px 0 14px 0;
+            text-transform: capitalize;
+            font-size: 14px;
+        }
+        .meta {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .meta .item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 8px 10px;
+        }
+        .meta .label {
+            color: var(--muted);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+        .meta .value { font-size: 14px; font-weight: 600; margin-top: 2px; }
+        .section-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--muted);
+            margin: 6px 0 6px 0;
+        }
+        .chart-wrap { position: relative; height: 130px; margin-bottom: 14px; }
+        .forecast {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 6px;
+        }
+        .slot {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 8px 4px;
+            text-align: center;
+            min-height: 84px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .slot .t { font-size: 10px; color: var(--muted); }
+        .slot .e { font-size: 22px; line-height: 1.1; }
+        .slot .v { font-size: 13px; font-weight: 600; }
+        .slot .pop { font-size: 9px; color: var(--accent); }
+        .empty { color: var(--muted); font-size: 13px; padding: 10px; }
+        .footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 32px; }
+    </style>
+</head>
+<body>
+    <div class="page-header">
+        <h1>🌍 Weather Dashboard</h1>
+        <div class="updated">Updated 2026-05-12 08:02 UTC</div>
+    </div>
+    <div class="grid">
+        
+        <div class="card">
+            <div class="card-head">
+                <div class="city">Kathmandu</div>
+                <div class="emoji">☁️</div>
+            </div>
+            <div class="temp">20.12°C</div>
+            <div class="desc">Broken Clouds</div>
+            <div class="meta">
+                <div class="item"><div class="label">Feels Like</div><div class="value">20.8°C</div></div>
+                <div class="item"><div class="label">Humidity</div><div class="value">100%</div></div>
+                <div class="item"><div class="label">Wind</div><div class="value">3.09 m/s</div></div>
+            </div>
+            <div class="section-label">Temperature trend</div>
+            <div class="chart-wrap"><canvas id="chart-kathmandu"></canvas></div>
+            <div class="section-label">Next 24 hours</div>
+            <div class="forecast"><div class="slot"><div class="t">09:00</div><div class="e">🌧️</div><div class="v">20°</div><div class="pop">💧100%</div></div><div class="slot"><div class="t">12:00</div><div class="e">🌧️</div><div class="v">20°</div><div class="pop">💧100%</div></div><div class="slot"><div class="t">15:00</div><div class="e">🌧️</div><div class="v">19°</div><div class="pop">💧98%</div></div><div class="slot"><div class="t">18:00</div><div class="e">🌧️</div><div class="v">18°</div><div class="pop">💧97%</div></div><div class="slot"><div class="t">21:00</div><div class="e">🌧️</div><div class="v">18°</div><div class="pop">💧20%</div></div><div class="slot"><div class="t">00:00</div><div class="e">🌧️</div><div class="v">18°</div><div class="pop">💧100%</div></div><div class="slot"><div class="t">03:00</div><div class="e">🌧️</div><div class="v">22°</div><div class="pop">💧100%</div></div><div class="slot"><div class="t">06:00</div><div class="e">🌧️</div><div class="v">24°</div><div class="pop">💧100%</div></div></div>
+        </div>
+    
+
+        <div class="card">
+            <div class="card-head">
+                <div class="city">London</div>
+                <div class="emoji">☁️</div>
+            </div>
+            <div class="temp">10.33°C</div>
+            <div class="desc">Scattered Clouds</div>
+            <div class="meta">
+                <div class="item"><div class="label">Feels Like</div><div class="value">9.17°C</div></div>
+                <div class="item"><div class="label">Humidity</div><div class="value">67%</div></div>
+                <div class="item"><div class="label">Wind</div><div class="value">4.12 m/s</div></div>
+            </div>
+            <div class="section-label">Temperature trend</div>
+            <div class="chart-wrap"><canvas id="chart-london"></canvas></div>
+            <div class="section-label">Next 24 hours</div>
+            <div class="forecast"><div class="slot"><div class="t">09:00</div><div class="e">☁️</div><div class="v">11°</div><div class="pop"></div></div><div class="slot"><div class="t">12:00</div><div class="e">☁️</div><div class="v">12°</div><div class="pop"></div></div><div class="slot"><div class="t">15:00</div><div class="e">☁️</div><div class="v">13°</div><div class="pop"></div></div><div class="slot"><div class="t">18:00</div><div class="e">🌧️</div><div class="v">14°</div><div class="pop">💧20%</div></div><div class="slot"><div class="t">21:00</div><div class="e">☁️</div><div class="v">9°</div><div class="pop"></div></div><div class="slot"><div class="t">00:00</div><div class="e">☁️</div><div class="v">7°</div><div class="pop"></div></div><div class="slot"><div class="t">03:00</div><div class="e">☁️</div><div class="v">7°</div><div class="pop"></div></div><div class="slot"><div class="t">06:00</div><div class="e">☁️</div><div class="v">8°</div><div class="pop"></div></div></div>
+        </div>
+    
+
+        <div class="card">
+            <div class="card-head">
+                <div class="city">Pokhara</div>
+                <div class="emoji">☁️</div>
+            </div>
+            <div class="temp">25.75°C</div>
+            <div class="desc">Broken Clouds</div>
+            <div class="meta">
+                <div class="item"><div class="label">Feels Like</div><div class="value">25.82°C</div></div>
+                <div class="item"><div class="label">Humidity</div><div class="value">55%</div></div>
+                <div class="item"><div class="label">Wind</div><div class="value">1.44 m/s</div></div>
+            </div>
+            <div class="section-label">Temperature trend</div>
+            <div class="chart-wrap"><canvas id="chart-pokhara"></canvas></div>
+            <div class="section-label">Next 24 hours</div>
+            <div class="forecast"><div class="slot"><div class="t">09:00</div><div class="e">🌧️</div><div class="v">24°</div><div class="pop">💧100%</div></div><div class="slot"><div class="t">12:00</div><div class="e">🌧️</div><div class="v">23°</div><div class="pop">💧100%</div></div><div class="slot"><div class="t">15:00</div><div class="e">🌧️</div><div class="v">21°</div><div class="pop">💧100%</div></div><div class="slot"><div class="t">18:00</div><div class="e">🌧️</div><div class="v">20°</div><div class="pop">💧100%</div></div><div class="slot"><div class="t">21:00</div><div class="e">🌧️</div><div class="v">19°</div><div class="pop">💧100%</div></div><div class="slot"><div class="t">00:00</div><div class="e">🌧️</div><div class="v">18°</div><div class="pop">💧92%</div></div><div class="slot"><div class="t">03:00</div><div class="e">🌧️</div><div class="v">24°</div><div class="pop">💧57%</div></div><div class="slot"><div class="t">06:00</div><div class="e">🌧️</div><div class="v">26°</div><div class="pop">💧100%</div></div></div>
+        </div>
+    
+
+        <div class="card">
+            <div class="card-head">
+                <div class="city">Tokyo</div>
+                <div class="emoji">☁️</div>
+            </div>
+            <div class="temp">23.34°C</div>
+            <div class="desc">Scattered Clouds</div>
+            <div class="meta">
+                <div class="item"><div class="label">Feels Like</div><div class="value">23.06°C</div></div>
+                <div class="item"><div class="label">Humidity</div><div class="value">51%</div></div>
+                <div class="item"><div class="label">Wind</div><div class="value">6.17 m/s</div></div>
+            </div>
+            <div class="section-label">Temperature trend</div>
+            <div class="chart-wrap"><canvas id="chart-tokyo"></canvas></div>
+            <div class="section-label">Next 24 hours</div>
+            <div class="forecast"><div class="slot"><div class="t">09:00</div><div class="e">☁️</div><div class="v">23°</div><div class="pop"></div></div><div class="slot"><div class="t">12:00</div><div class="e">☁️</div><div class="v">22°</div><div class="pop"></div></div><div class="slot"><div class="t">15:00</div><div class="e">☁️</div><div class="v">20°</div><div class="pop"></div></div><div class="slot"><div class="t">18:00</div><div class="e">☁️</div><div class="v">18°</div><div class="pop"></div></div><div class="slot"><div class="t">21:00</div><div class="e">☁️</div><div class="v">18°</div><div class="pop"></div></div><div class="slot"><div class="t">00:00</div><div class="e">☁️</div><div class="v">21°</div><div class="pop"></div></div><div class="slot"><div class="t">03:00</div><div class="e">☁️</div><div class="v">24°</div><div class="pop"></div></div><div class="slot"><div class="t">06:00</div><div class="e">☁️</div><div class="v">26°</div><div class="pop"></div></div></div>
+        </div>
+    
+    </div>
+    <div class="footer">Powered by OpenWeather · Orchestrated by Apache Airflow</div>
+    <script>
+        const CITY_HISTORY = {"kathmandu": [["2026-05-12 08:00:05 UTC", 20.12], ["2026-05-12 08:02:44 UTC", 20.12]], "london": [["2026-05-12 07:50:12 UTC", 10.04], ["2026-05-12 07:50:19 UTC", 10.04], ["2026-05-12 08:00:05 UTC", 10.33]], "pokhara": [["2026-05-12 07:50:39 UTC", 25.75], ["2026-05-12 07:51:03 UTC", 25.75], ["2026-05-12 08:00:05 UTC", 25.75]], "tokyo": [["2026-05-12 07:51:22 UTC", 23.34], ["2026-05-12 07:51:27 UTC", 23.34], ["2026-05-12 08:00:05 UTC", 23.34]]};
+        for (const [slug, points] of Object.entries(CITY_HISTORY)) {
+            const ctx = document.getElementById('chart-' + slug);
+            if (!ctx || !points || !points.length) continue;
+            const labels = points.map(p => (p[0] || '').slice(11, 16));
+            const data = points.map(p => p[1]);
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels,
+                    datasets: [{
+                        data,
+                        borderColor: '#38bdf8',
+                        backgroundColor: 'rgba(56, 189, 248, 0.18)',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.4,
+                        fill: true,
+                    }],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false }, tooltip: { intersect: false, mode: 'index' } },
+                    scales: {
+                        x: {
+                            ticks: { color: '#94a3b8', maxTicksLimit: 5, font: { size: 9 } },
+                            grid: { display: false },
+                        },
+                        y: {
+                            ticks: { color: '#94a3b8', font: { size: 9 } },
+                            grid: { color: 'rgba(255,255,255,0.05)' },
+                        },
+                    },
+                },
+            });
+        }
+    </script>
+</body>
+</html>

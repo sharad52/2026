@@ -1,0 +1,9 @@
+ts_utc,temperature_c,feels_like_c,humidity,weather_main,weather_description,icon,pop
+2026-05-12 09:00:00,20.12,20.8,100,Rain,Moderate Rain,10d,1.0
+2026-05-12 12:00:00,20.09,20.61,94,Rain,Moderate Rain,10d,1.0
+2026-05-12 15:00:00,18.97,19.22,88,Rain,Light Rain,10n,0.98
+2026-05-12 18:00:00,18.33,18.36,82,Rain,Light Rain,10n,0.97
+2026-05-12 21:00:00,17.66,17.6,81,Rain,Light Rain,10n,0.2
+2026-05-13 00:00:00,17.56,17.51,82,Rain,Light Rain,10d,1.0
+2026-05-13 03:00:00,21.57,21.48,65,Rain,Light Rain,10d,1.0
+2026-05-13 06:00:00,24.38,24.34,56,Rain,Moderate Rain,10d,1.0

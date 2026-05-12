@@ -1,0 +1,45 @@
+{
+  "coord": {
+    "lon": 85.3167,
+    "lat": 27.7167
+  },
+  "weather": [
+    {
+      "id": 803,
+      "main": "Clouds",
+      "description": "broken clouds",
+      "icon": "04d"
+    }
+  ],
+  "base": "stations",
+  "main": {
+    "temp": 23.12,
+    "feels_like": 23.16,
+    "temp_min": 23.12,
+    "temp_max": 23.12,
+    "pressure": 1009,
+    "humidity": 64,
+    "sea_level": 1009,
+    "grnd_level": 849
+  },
+  "visibility": 7000,
+  "wind": {
+    "speed": 1.03,
+    "deg": 0
+  },
+  "clouds": {
+    "all": 75
+  },
+  "dt": 1778568704,
+  "sys": {
+    "type": 1,
+    "id": 9201,
+    "country": "NP",
+    "sunrise": 1778542301,
+    "sunset": 1778590716
+  },
+  "timezone": 20700,
+  "id": 1283240,
+  "name": "Kathmandu",
+  "cod": 200
+}
