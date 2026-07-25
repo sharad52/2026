@@ -22,3 +22,5 @@ Focused on scalability, reliability, performance, AI-enabled systems, and senior
 ├── engineering-management/
 ├── case-studies/
 └── notes-and-learning-log/
+|__ coding-challenges
+
